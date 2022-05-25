@@ -1,0 +1,5 @@
+model role {
+    id   Int    @id @default(autoincrement())
+    name String
+    user user[]
+}
