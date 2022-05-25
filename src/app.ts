@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser'
 
 import env from './common/config/env.config'
 import routes from './routes'
+import errorMiddleware from './common/middlewares/error.middleware'
 
 const app: Application = express()
 
@@ -33,5 +34,7 @@ app.use(express.json())
 app.use(cookieParser())
 
 app.use(env.API.prefix, routes())
+
+app.use(errorMiddleware)
 
 export default app

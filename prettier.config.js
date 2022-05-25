@@ -5,7 +5,8 @@ const options = {
     trailingComma: 'es5',
     singleQuote: true,
     tabWidth: 2,
-    endOfLine: 'auto'
+    endOfLine: 'auto',
+    printWidth: 100
 }
 
 module.exports = options

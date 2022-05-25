@@ -1,21 +1,20 @@
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
+import HttpException from '../common/exceptions/HttpException'
 import roleService from './role.service'
 
-const createRole = async (req: Request, res: Response) => {
+const createRole = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const role = await roleService.create(req.body)
     return res.status(200).json(role)
   } catch (err) {
     if (err instanceof Error) {
-      return res.status(409).json({ message: err.message })
-    } else {
-      console.log(err)
-      return res.status(500).json({ message: 'Unknow failure' })
+      next(new HttpException(409, err.message))
     }
+    next(new HttpException(500, 'Unknow failure'))
   }
 }
 
-const getRoleById = async (req: Request, res: Response) => {
+const getRoleById = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = Number(req.params.id)
     const role = await roleService.getById(id)
@@ -23,11 +22,9 @@ const getRoleById = async (req: Request, res: Response) => {
     return res.status(200).json(role)
   } catch (err) {
     if (err instanceof Error) {
-      return res.status(400).json({ message: err.message })
-    } else {
-      console.log(err)
-      return res.status(500).json({ message: 'Unknow failure' })
+      next(new HttpException(409, err.message))
     }
+    next(new HttpException(500, 'Unknow failure'))
   }
 }
 
