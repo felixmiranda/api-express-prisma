@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { check } from 'express-validator';
 import RoleController from './role.controller';
-import { validateFields } from '../common/middlewares/validate-fields';
+import { validateFields } from '../common/middlewares/validation.middleware';
 
 const route = Router();
 
