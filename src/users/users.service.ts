@@ -1,4 +1,13 @@
 import prismaService from '../common/services/prisma.service'
+import { ICreateUserDto } from './interfaces/createUser.dto'
+
+const create = async (userData: ICreateUserDto) => {
+  return prismaService.user.create({
+    data: {
+      ...userData
+    }
+  })
+}
 
 const getById = async (id: number) => {
   const user = prismaService.user.findUnique({
@@ -51,7 +60,7 @@ const getCredentialsByEmail = async (email: string) => {
       email: true,
       password: true,
       roleid: true,
-      name: true,
+      dni: true,
     },
   })
 
@@ -63,6 +72,7 @@ const getCredentialsByEmail = async (email: string) => {
 }
 
 export default {
+  create,
   getById,
   getByDni,
   getByEmail,

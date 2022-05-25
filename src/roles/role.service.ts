@@ -1,5 +1,5 @@
 import prismaService from '../common/services/prisma.service'
-import { ICreateRoleDto } from './dto/createRole.dto'
+import { ICreateRoleDto } from './interfaces/createRole.dto'
 
 const create = async (role: ICreateRoleDto) => {
   return prismaService.role.create({
