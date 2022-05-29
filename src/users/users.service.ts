@@ -10,7 +10,7 @@ const create = async (userData: ICreateUserDto) => {
 }
 
 const getById = async (id: number) => {
-  const user = prismaService.user.findUnique({
+  const user = await prismaService.user.findUnique({
     where: {
       id,
     },
@@ -24,7 +24,7 @@ const getById = async (id: number) => {
 }
 
 const getByDni = async (dni: string) => {
-  const user = prismaService.user.findUnique({
+  const user = await prismaService.user.findUnique({
     where: {
       dni,
     },
@@ -38,7 +38,7 @@ const getByDni = async (dni: string) => {
 }
 
 const getByEmail = async (email: string) => {
-  const user = prismaService.user.findUnique({
+  const user = await prismaService.user.findUnique({
     where: {
       email,
     },
@@ -52,15 +52,15 @@ const getByEmail = async (email: string) => {
 }
 
 const getCredentialsByEmail = async (email: string) => {
-  const user = prismaService.user.findUnique({
+  const user = await prismaService.user.findUnique({
     where: {
       email,
     },
     select: {
+      id: true,
       email: true,
       password: true,
-      roleid: true,
-      dni: true,
+      roleId: true,
     },
   })
 
@@ -71,10 +71,20 @@ const getCredentialsByEmail = async (email: string) => {
   return user
 }
 
+const deleteById = async (id: number) => {
+  const deletedUser = await prismaService.user.delete({
+    where: {
+      id,
+    }
+  })
+  return deletedUser
+}
+
 export default {
   create,
   getById,
   getByDni,
   getByEmail,
-  getCredentialsByEmail
+  getCredentialsByEmail,
+  deleteById
 }

@@ -39,8 +39,22 @@ const getUserByEmail = async (req: Request, res: Response, next: NextFunction) =
   }
 }
 
+const deleteUserById = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const id = Number(req.params.id)
+    const deletedUser = await UsersService.deleteById(id)
+    return res.status(200).json(deletedUser)
+  } catch (err) {
+    if (err instanceof Error) {
+      next(new HttpException(400, err.message))
+    }
+    next(new HttpException(500, 'Unknow failure'))
+  }
+}
+
 export default {
   getUserById,
   getUserByDni,
   getUserByEmail,
+  deleteUserById,
 }

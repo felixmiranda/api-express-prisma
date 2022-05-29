@@ -16,9 +16,9 @@ const verifyCredentials = async (req: Request, res: Response, next: NextFunction
   try {
     const user = await authenticationService.getAuthenticatedUser(req.body.email, req.body.password)
     req.body = {
-      dni: user.dni,
+      userId: user.id,
       email: user.email,
-      role: user.roleid,
+      roleId: user.roleId,
     }
     return next()
   } catch (err) {

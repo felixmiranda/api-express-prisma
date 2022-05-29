@@ -3,12 +3,12 @@ import bcrypt from 'bcrypt'
 import { IRegisterDto } from './interfaces/register.dto'
 import jwt from 'jsonwebtoken'
 import { IPayloadJWT } from './interfaces/jwt.interface'
-import envConfig from '../common/config/env.config'
+import env from '../common/config/env.config'
 
-const jwtAccessSecret = envConfig.JWT.ACCESS_SECRET_KEY || ''
-const accessTokenDuration = envConfig.JWT.ACCESS_EXPIRATION_TIME || '0'
-const jwtRefreshSecret = envConfig.JWT.REFRESH_SECRET_KEY || ''
-const refreshTokenDuration = envConfig.JWT.REFRESH_EXPIRATION_TIME || '0'
+const jwtAccessSecret = env.JWT.ACCESS_SECRET_KEY || ''
+const accessTokenDuration = env.JWT.ACCESS_EXPIRATION_TIME || '0'
+const jwtRefreshSecret = env.JWT.REFRESH_SECRET_KEY || ''
+const refreshTokenDuration = env.JWT.REFRESH_EXPIRATION_TIME || '0'
 
 const generateJwtKeys = (
   payload: IPayloadJWT
@@ -43,7 +43,8 @@ const register = async (registrationData: IRegisterDto) => {
     })
     createdUser.password = ''
     return createdUser
-  } catch {
+  } catch(e){
+    console.log(e)
     throw new Error('Error while register user')
   }
 }
@@ -68,10 +69,17 @@ const getAuthenticatedUser = async (email: string, plainTextPassword: string) =>
   }
 }
 
+const verifyToken = async(token: string, type: 'access' | 'refresh') => {
+  const secretToken = type === 'access' ? jwtAccessSecret : jwtRefreshSecret
+  // return jwt.verify( token, secretToken ) as IJwt
+  return jwt.verify( token, secretToken )
+}
+
 export default {
   register,
   generateJwtKeys,
   getCookiesForLogOut,
   verifyPassword,
   getAuthenticatedUser,
+  verifyToken
 }

@@ -3,5 +3,5 @@ export interface ICreateUserDto {
   email: string
   name: string
   password: string
-  roleid: number
+  roleId?: number
 }
